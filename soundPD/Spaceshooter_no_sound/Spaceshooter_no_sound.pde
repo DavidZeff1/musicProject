@@ -10,6 +10,7 @@ SoundFile lazer;
 SoundFile kill;
 SoundFile hitBoom;
 SoundFile start_retry;
+SoundFile game_over;
 Sound s;
 float modFreq = 250;  // Frequency of the modulator oscillator
 float modIndex = 50;  // Modulation index (how much the modulator affects the carrier frequency)
@@ -88,6 +89,7 @@ void setup() {
   kill = new SoundFile(this, "data/audio/kill.wav");
   hitBoom = new SoundFile(this, "data/audio/boomHit.wav");
   start_retry = new SoundFile(this, "data/audio/start_retry.wav");
+  game_over = new SoundFile(this, "data/audio/game_over.wav");
   s = new Sound(this);
   gameMusic.loop();
     //s.sampleRate(48000);
@@ -182,6 +184,7 @@ void hit() {
     
     cursorVisible = true;
     cursor();
+    game_over.play();
   }
 }
 
