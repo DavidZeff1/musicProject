@@ -14,7 +14,6 @@ SoundFile game_over;
 Sound s;
 float modFreq = 250;  // Frequency of the modulator oscillator
 float modIndex = 50;  // Modulation index (how much the modulator affects the carrier frequency)
-
 // Sprites
 PImage shipImage, laserImage, alienImage, spaceImage, menuImage;
 float bgX = 0;
@@ -92,9 +91,8 @@ void setup() {
   game_over = new SoundFile(this, "data/audio/game_over.wav");
   s = new Sound(this);
   gameMusic.loop();
-    //s.sampleRate(48000);
 
-  start_retry.stop();
+  
   // Load images
   shipImage = loadImage(dataPath("sprites/Ship.png"));
   laserImage = loadImage(dataPath("sprites/Laser.png"));
@@ -122,9 +120,7 @@ void starship() {
 }
 
 void shot() {
-  //
-  //lazer = new SoundFile(this, "lazer.wav");
-    
+      
   fill(222, 0, 0, shotVisible);
   noStroke();
 
@@ -140,7 +136,6 @@ void shot() {
   
   if (keyPressed && key == ' '){
     shooting = true;  
-      //lazer.play();  
   }
   if (shotX > width) {
     shooting = false;
@@ -152,8 +147,10 @@ void hit() {
   for (int i = 0; i < enemies.length; i++) {
     if (enemies[i].enemyX <= starshipX && enemies[i].enemyX >= starshipX - 80 && enemies[i].position >= starshipY - 40 && enemies[i].position <= starshipY + 40) {
       if (millis() - collisionTime > 1500) {
-        hitBoom.amp(5);
-        hitBoom.play();
+       //   
+          hitBoom.play();
+          hitBoom.amp(1.5);
+
         lives--;
         collisionTime = millis();
         enemies[i].enemyX = -80;
@@ -192,6 +189,8 @@ void kill() {
   for (int i = 0; i < enemies.length; i++) {
     if (shotX >= enemies[i].enemyX && shotY >= enemies[i].position - 50 && shotY <= enemies[i].position + 50) {
       kill.play();
+      //kill.amp(0.3);
+
       enemies[i].enemyX = width + 80;
       enemies[i].position = random(60, 300);
       enemies[i].speed = random(4.5, 6.5);
@@ -206,10 +205,12 @@ void kill() {
 void keyPressed() {
  
   
-  if (key == 'p') {
+  if (key == 'p' || key == 'פ') {
     isPaused = !isPaused;
     if (isPaused) {
+      
       pause.play();
+      pause.amp(0.5);
       
       menuMusic.loop();
       gameMusic.stop();
@@ -231,6 +232,8 @@ void keyPressed() {
   
   if (key == ' ') {
     lazer.play();
+    lazer.amp(0.3);
+  
   }
 }
 
@@ -255,6 +258,7 @@ void resetGame() {
   if (previousScore > bestScore) {
     bestScore = previousScore;
   }
+
 }
 
 
@@ -281,7 +285,7 @@ void scoreCount(){
       text("Score: " + score, width - 20, 20);
     } 
     else {
-       // if the game stoped
+       // if the game stopped
            gameMusic.stop();   
 
      
@@ -306,9 +310,9 @@ void mousePressed() {
   
   if (!gameStarted && mouseX > width / 2 - 120 && mouseX < width / 2 + 120 && mouseY > height / 2 && mouseY < height / 2 + 180) {
     //
-
-    start_retry.play();
-    
+      start_retry.play();
+      start_retry.amp(1.5);
+      
     gameStarted = true;
     cursorVisible = false;
     noCursor();
@@ -316,9 +320,10 @@ void mousePressed() {
   }
   
   else if (lives <= 0 && mouseX > width / 2 - 60 && mouseX < width / 2 + 60 && mouseY > height / 2 + 150 && mouseY < height / 2 + 200) {
-    //
-      start_retry.play();
-
+   //
+    start_retry.play();
+    start_retry.amp(1.5);
+    gameMusic.loop();
 
     resetGame();
     gameOverClicked = true;
