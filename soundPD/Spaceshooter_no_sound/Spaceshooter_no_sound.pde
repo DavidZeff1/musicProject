@@ -90,8 +90,7 @@ void setup() {
   start_retry = new SoundFile(this, "data/audio/start_retry.wav");
   game_over = new SoundFile(this, "data/audio/game_over.wav");
   s = new Sound(this);
-  gameMusic.loop();
-
+  menuMusic.loop();
   
   // Load images
   shipImage = loadImage(dataPath("sprites/Ship.png"));
@@ -212,7 +211,7 @@ void keyPressed() {
       pause.play();
       pause.amp(0.5);
       
-      menuMusic.loop();
+      menuMusic.stop();
       gameMusic.stop();
       fill(255);
       textSize(80);
@@ -222,10 +221,14 @@ void keyPressed() {
       
     } 
     else {      
+      if (gameStarted) {
+        gameMusic.loop();
+      }
+      else {
+        menuMusic.loop();
+      }
       loop();
-      menuMusic.stop();
-      pause.stop();
-      gameMusic.loop();  
+      
   }
 
   }
@@ -314,6 +317,9 @@ void mousePressed() {
       start_retry.amp(1.5);
       
     gameStarted = true;
+    menuMusic.stop();
+    gameMusic.loop();
+    
     cursorVisible = false;
     noCursor();
     resetEnemies();  
@@ -323,9 +329,10 @@ void mousePressed() {
    //
     start_retry.play();
     start_retry.amp(1.5);
-    gameMusic.loop();
 
     resetGame();
+        menuMusic.loop();
+
     gameOverClicked = true;
   } else {
     gameOverClicked = false;
