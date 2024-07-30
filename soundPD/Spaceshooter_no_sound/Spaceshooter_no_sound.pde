@@ -309,64 +309,65 @@ void scoreCount(){
 }
 
 
+boolean startRetryPlaying = false;
+int startRetryStartTime = 0;
+
 void mousePressed() {
-  
   if (!gameStarted && mouseX > width / 2 - 120 && mouseX < width / 2 + 120 && mouseY > height / 2 && mouseY < height / 2 + 180) {
-    //
-      start_retry.play();
-      start_retry.amp(1.5);
-      
-    gameStarted = true;
     menuMusic.stop();
-    gameMusic.loop();
+    start_retry.play();
+    start_retry.amp(1.5);
+    
+    startRetryPlaying = true;
+    startRetryStartTime = millis();
+    
+    gameStarted = true;
     
     cursorVisible = false;
     noCursor();
     resetEnemies();  
-  }
-  
-  else if (lives <= 0 && mouseX > width / 2 - 60 && mouseX < width / 2 + 60 && mouseY > height / 2 + 150 && mouseY < height / 2 + 200) {
-   //
+  } else if (lives <= 0 && mouseX > width / 2 - 60 && mouseX < width / 2 + 60 && mouseY > height / 2 + 150 && mouseY < height / 2 + 200) {
     start_retry.play();
     start_retry.amp(1.5);
-
+    
     resetGame();
-        menuMusic.loop();
-
+    menuMusic.loop();
+    
     gameOverClicked = true;
   } else {
     gameOverClicked = false;
   }
 }
 
-
 void draw() {
-  
   image(spaceImage, bgX, 0, width, height);
   
   if (!gameStarted) {
     startScreen();
-    
-   } else {
+  } else {
     bgX -= 4;
-
+    
     if (bgX <= -width) {
       bgX = 0;
     }
-
-   image(spaceImage, bgX + width, 0, width, height);
-
+    
+    image(spaceImage, bgX + width, 0, width, height);
+    
     starship();
     shot();
     kill();
-
+    
     for (int i = 0; i < enemies.length; i++) {
       enemies[i].move();
       enemies[i].display();
     }
-
+    
     hit();
     scoreCount();
     
+    if (startRetryPlaying && millis() - startRetryStartTime >= start_retry.duration() * 1000) {
+      gameMusic.loop();
+      startRetryPlaying = false;
+    }
   }
 }
