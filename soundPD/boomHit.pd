@@ -5,7 +5,7 @@
 #X obj 423 580 vline~;
 #X obj 330 504 bp~ 799 3;
 #X obj 265 501 hip~;
-#X floatatom 248 451 5 0 0 0 - - - 0;
+#X floatatom 245 445 5 0 0 0 - - - 0;
 #X obj 216 372 delay 100;
 #X obj 136 503 vline~;
 #X obj 273 580 *~;
@@ -19,6 +19,9 @@
 #X obj 208 600 *~ 0.5;
 #X msg 99 468 0.05 100 \, 0 100 350;
 #X text 264 261 Play Here--->;
+#X text 344 202 spaceship hit;
+#X obj 221 407 loadbang;
+#X msg 180 432 93;
 #X connect 0 0 7 0;
 #X connect 0 0 15 0;
 #X connect 2 0 5 0;
@@ -41,3 +44,5 @@
 #X connect 16 0 10 0;
 #X connect 17 0 10 0;
 #X connect 18 0 8 0;
+#X connect 21 0 22 0;
+#X connect 22 0 6 0;
